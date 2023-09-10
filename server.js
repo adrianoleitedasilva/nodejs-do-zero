@@ -4,10 +4,22 @@ import { DatabaseMemory } from "./database-memory.js"
 // Criando o servidor
 const server = fastify()
 
+// Criando nosso Database
+const database = new DatabaseMemory
+
 // Rota para enviar um vídeo
 // http://localhost:3333/videos/
-server.post("/videos", () => {
-    return 'Hello World'
+server.post("/videos", (request, reply) => {
+    database.create({
+        title: 'Vídeo 01',
+        description: 'Esse é o Vídeo 01',
+        duration: 180,
+    })
+
+    console.log(database.list())
+
+    return reply.status(201).send()
+
 })
 
 // Rota para recuperar um vídeo
